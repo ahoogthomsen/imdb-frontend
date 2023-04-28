@@ -1,0 +1,36 @@
+.movieGridList {
+  display: grid;
+  padding: 16px;
+  list-style: none;
+  margin: 0;
+  gap: 15px;
+}
+
+@media (min-width: 500px) {
+  .movieGridList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 16px;
+    list-style: none;
+    margin: 0;
+    gap: 15px;
+  }
+}
+
+@media (min-width: 700px) {
+  .movieGridList {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .movieGridList {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1500px) {
+  .movieGridList {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
