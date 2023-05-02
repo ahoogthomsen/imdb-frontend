@@ -1,6 +1,13 @@
+import { useState } from "react";
 import styles from "./MovieListItem.module.css";
+import MovieModal from "../MovieModal/MovieModal";
 
-const MovieListItem = ({ movie, onDelete }) => {
+const MovieListItem = ({ movie, onDelete, onUpdate }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsOpen((prevState) => !prevState);
+  };
   return (
     <li className={styles.movieListItem}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -16,7 +23,15 @@ const MovieListItem = ({ movie, onDelete }) => {
       </div>
       <div>
         <button onClick={() => onDelete(movie.imdbID)}>Delete movie</button>
+        <button onClick={handleToggleModal}>Edit movie</button>
       </div>
+      {isOpen && (
+        <MovieModal
+          movie={movie}
+          onSubmit={onUpdate}
+          onClose={handleToggleModal}
+        />
+      )}
     </li>
   );
 };

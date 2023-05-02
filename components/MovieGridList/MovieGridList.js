@@ -8,7 +8,7 @@ const MovieGridList = () => {
   const [data, setData] = useState(mockData);
 
   const handleDeleteItem = (id) => {
-    console.log({ id });
+    setData((prevState) => prevState.filter((item) => item.imdbID !== id));
   };
 
   const handleCreateItem = (item) => {
@@ -16,7 +16,9 @@ const MovieGridList = () => {
   };
 
   const handleUpdateItem = (item) => {
-    console.log({ item });
+    setData((prevState) =>
+      prevState.map((movie) => (movie.imdbID === item.id ? { ...item } : movie))
+    );
   };
 
   return (
@@ -27,6 +29,7 @@ const MovieGridList = () => {
             key={index}
             movie={movie}
             onDelete={handleDeleteItem}
+            onUpdate={handleUpdateItem}
           />
         ))}
       </ul>
