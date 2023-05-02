@@ -1,6 +1,6 @@
 import styles from "./MovieListItem.module.css";
 
-const MovieListItem = ({ movie }) => {
+const MovieListItem = ({ movie, onDelete }) => {
   return (
     <li className={styles.movieListItem}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -13,6 +13,9 @@ const MovieListItem = ({ movie }) => {
         <h2 className={styles.movieTitle}>{movie.Title}</h2>
         <p className={styles.movieYear}>Released: {movie.Year}</p>
         <p className={styles.movieGenre}>Genre: {movie.Genre}</p>
+      </div>
+      <div>
+        <button onClick={() => onDelete(movie.imdbID)}>Delete movie</button>
       </div>
     </li>
   );
