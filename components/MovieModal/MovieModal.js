@@ -3,6 +3,10 @@ import classes from "./MovieModal.module.css";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
+// https://m.media-amazon.com/images/M/MV5BMGVmMWNiMDktYjQ0Mi00MWIxLTk0N2UtN2ZlYTdkN2IzNDNlXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg
+// https://m.media-amazon.com/images/M/MV5BMjE0YjUzNDUtMjc5OS00MTU3LTgxMmUtODhkOThkMzdjNWI4XkEyXkFqcGdeQXVyMTA3MzQ4MTc0._V1_SX300.jpg
+// https://m.media-amazon.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg
+// https://m.media-amazon.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg
 const MovieModal = ({ movie = {}, onSubmit, onClose }) => {
   const [poster, setPoster] = useState(movie.Poster || "");
   const [title, setTitle] = useState(movie.Title || "");
