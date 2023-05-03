@@ -3,16 +3,27 @@ import styles from "./MovieGridList.module.css";
 
 import { mockData } from "@/mockData";
 import MovieListItem from "../MovieListItem/MovieListItem";
+import MovieModal from "../MovieModal/MovieModal";
 
 const MovieGridList = () => {
   const [data, setData] = useState(mockData);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsOpen((prevState) => !prevState);
+  };
 
   const handleDeleteItem = (id) => {
     setData((prevState) => prevState.filter((item) => item.imdbID !== id));
   };
 
   const handleCreateItem = (item) => {
-    console.log({ item });
+    const imdbID = Math.floor(Math.random() * 100);
+
+    const { id, ...props } = item;
+    const newMovie = { ...props, imdbID };
+
+    setData((prevState) => [...prevState, newMovie]);
   };
 
   const handleUpdateItem = (item) => {
@@ -23,6 +34,7 @@ const MovieGridList = () => {
 
   return (
     <>
+      <button onClick={handleToggleModal}>Add new movie</button>
       <ul className={styles.movieGridList}>
         {data.map((movie, index) => (
           <MovieListItem
@@ -33,6 +45,9 @@ const MovieGridList = () => {
           />
         ))}
       </ul>
+      {isOpen && (
+        <MovieModal onSubmit={handleCreateItem} onClose={handleToggleModal} />
+      )}
     </>
   );
 };
