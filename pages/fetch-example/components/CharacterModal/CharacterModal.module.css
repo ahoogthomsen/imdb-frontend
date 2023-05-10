@@ -1,0 +1,64 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 30rem;
+}
+
+.modal label {
+  font-weight: bold;
+  display: block;
+  margin: 0.5rem 0;
+  color: black;
+}
+
+.modal input {
+  font: inherit;
+  padding: 0.15rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: black;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.actions button {
+  font: inherit;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.actions button[type="submit"] {
+  background-color: black;
+  color: white;
+  border: none;
+}
