@@ -1,35 +1,100 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MovieGridList.module.css";
-
-import { mockData } from "@/mockData";
 import MovieListItem from "../MovieListItem/MovieListItem";
 import MovieModal from "../MovieModal/MovieModal";
 
+import {
+  getMovies,
+  deleteMovie,
+  addMovie,
+  editMovie,
+} from "@/pages/movies/api";
+import Toaster from "@/pages/fetch-example/components/Toaster/Toaster";
+
 const MovieGridList = () => {
-  const [data, setData] = useState(mockData);
+  const [data, setData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [toaster, setToaster] = useState(null);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await getMovies();
+        setData(response.data);
+      } catch (e) {
+        setToaster({
+          message: "An error occured when fetching movies",
+          type: "error",
+        });
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
   const handleToggleModal = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const handleDeleteItem = (id) => {
-    setData((prevState) => prevState.filter((item) => item.imdbID !== id));
+  const closeToaster = () => {
+    setToaster(null);
   };
 
-  const handleCreateItem = (item) => {
-    const imdbID = Math.floor(Math.random() * 100);
-
-    const { id, ...props } = item;
-    const newMovie = { ...props, imdbID };
-
-    setData((prevState) => [...prevState, newMovie]);
+  const handleDeleteItem = async (id) => {
+    try {
+      await deleteMovie(id);
+      setData((prevState) => prevState.filter((movie) => movie.imdbID !== id));
+    } catch (e) {
+      setToaster({
+        message: "An error occured when trying to delete a movie",
+        type: "error",
+      });
+    }
   };
 
-  const handleUpdateItem = (item) => {
-    setData((prevState) =>
-      prevState.map((movie) => (movie.imdbID === item.id ? { ...item } : movie))
-    );
+  const handleCreateItem = async (item) => {
+    try {
+      const { data: newMovie, status } = await addMovie(item);
+      if (status !== 200) {
+        setToaster({
+          message: "An error occured when trying to create a movie",
+          type: "error",
+        });
+      }
+      setData((prevState) => [...prevState, newMovie]);
+    } catch (e) {
+      setToaster({
+        message: "An error occured when trying to create a movie",
+        type: "error",
+      });
+    }
+  };
+
+  const handleUpdateItem = async (item) => {
+    try {
+      const { data: updatedMovie, status } = await editMovie({
+        id: item.imdbID,
+        movie: item,
+      });
+
+      if (status !== 200) {
+        setToaster({
+          message: "An error occured when trying to update a movie",
+          type: "error",
+        });
+      }
+
+      setData((prevState) =>
+        prevState.map((movie) =>
+          movie.imdbID === item.imdbID ? { ...updatedMovie } : movie
+        )
+      );
+    } catch (e) {
+      setToaster({
+        message: "An error occured when trying to update a movie",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -47,6 +112,13 @@ const MovieGridList = () => {
       </ul>
       {isOpen && (
         <MovieModal onSubmit={handleCreateItem} onClose={handleToggleModal} />
+      )}
+      {toaster && (
+        <Toaster
+          message={toaster.message}
+          type={toaster.type}
+          onClose={closeToaster}
+        />
       )}
     </>
   );

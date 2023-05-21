@@ -1,7 +1,7 @@
-const BASE_URL = "http://localhost:3001/characters/";
+const BASE_URL = "https://imdb-express-backend.vercel.app/movies/";
 const API_KEY_QUERY = "?apiKey=5";
 
-export async function getCharacters() {
+export async function getMovies() {
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "GET",
   });
@@ -9,7 +9,7 @@ export async function getCharacters() {
   return { data };
 }
 
-export async function deleteCharacter(id) {
+export async function deleteMovie(id) {
   const res = await fetch(`${BASE_URL}${id}${API_KEY_QUERY}`, {
     method: "DELETE",
   });
@@ -18,26 +18,26 @@ export async function deleteCharacter(id) {
   return { data, status: res.status };
 }
 
-export async function addCharacter(name) {
+export async function addMovie(movie) {
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ character: { name } }),
+    body: JSON.stringify({ movie }),
   });
 
   const data = await res.json();
   return { data, status: res.status };
 }
 
-export async function editCharacter({ id, name }) {
+export async function editMovie({ id, movie }) {
   const res = await fetch(`${BASE_URL}${id}${API_KEY_QUERY}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ character: { id, name } }),
+    body: JSON.stringify({ movie }),
   });
 
   const data = await res.json();
