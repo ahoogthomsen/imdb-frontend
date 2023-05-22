@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./CharacterModal.module.css";
 
-const CharacterModal = ({ onSubmit, onClose, characterName }) => {
+const CharacterModal = ({ onSubmit, onClose, characterName, isLoading }) => {
   const [name, setName] = useState(characterName ?? "");
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    onSubmit(name);
+    await onSubmit(name);
     onClose();
   };
 
@@ -28,7 +28,9 @@ const CharacterModal = ({ onSubmit, onClose, characterName }) => {
           <button type="button" onClick={onClose}>
             Cancel
           </button>
-          <button type="submit">Submit</button>
+          <button type="submit">
+            {isLoading ? "Is Submitting..." : "Submit"}
+          </button>
         </div>
       </form>
     </div>,

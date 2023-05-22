@@ -13,7 +13,7 @@ import {
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-const cacheKey = "/api/characters";
+export const cacheKey = "/api/characters";
 
 export default function Characters() {
   const {
@@ -23,14 +23,18 @@ export default function Characters() {
     isLoading,
   } = useSWR(cacheKey, getCharacters);
 
-  const { trigger: addTrigger } = useSWRMutation(cacheKey, addCharacter, {
-    onError: () => {
-      setToaster({
-        message: "An error occuredwhen trying to add a character",
-        type: "error",
-      });
-    },
-  });
+  const { trigger: addTrigger, isMutating } = useSWRMutation(
+    cacheKey,
+    addCharacter,
+    {
+      onError: () => {
+        setToaster({
+          message: "An error occuredwhen trying to add a character",
+          type: "error",
+        });
+      },
+    }
+  );
   const { trigger: editTrigger } = useSWRMutation(cacheKey, editCharacter);
 
   // const [data, setData] = useState([]);
@@ -62,7 +66,15 @@ export default function Characters() {
   };
 
   const handleAddCharacter = async (name) => {
-    const { status, data } = await addTrigger(name);
+    const { status, data } = await addTrigger(name, {
+      // optimisticData: (currentData) => {
+      //   console.log({ currentData });
+      //   return {
+      //     ...currentData,
+      //     data: [...currentData.data, { name, id: 1235 }],
+      //   };
+      // },
+    });
 
     if (status !== 200) {
       setToaster({ message: data.message, type: "error" });
@@ -127,6 +139,7 @@ export default function Characters() {
       )}
       {isOpen && (
         <CharacterModal
+          isLoading={isMutating}
           onClose={handleToggleModal}
           onSubmit={handleAddCharacter}
         />

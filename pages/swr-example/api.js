@@ -1,6 +1,8 @@
 const BASE_URL = "http://localhost:3001/characters/";
 const API_KEY_QUERY = "?apiKey=5";
 
+const delay = () => new Promise((res) => setTimeout(() => res(), 4000));
+
 export async function getCharacters() {
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "GET",
@@ -19,6 +21,7 @@ export async function deleteCharacter(id) {
 }
 
 export async function addCharacter(_, { arg: name }) {
+  await delay();
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "POST",
     headers: {
