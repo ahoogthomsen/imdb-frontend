@@ -18,7 +18,7 @@ export async function deleteCharacter(id) {
   return { data, status: res.status };
 }
 
-export async function addCharacter(name) {
+export async function addCharacter(_, { arg: name }) {
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "POST",
     headers: {
@@ -26,7 +26,6 @@ export async function addCharacter(name) {
     },
     body: JSON.stringify({ character: { name } }),
   });
-
   const data = await res.json();
   return { data, status: res.status };
 }
