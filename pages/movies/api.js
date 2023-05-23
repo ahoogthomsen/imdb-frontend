@@ -1,6 +1,11 @@
 const BASE_URL = "https://imdb-express-backend.vercel.app/movies/";
 const API_KEY_QUERY = "?apiKey=5";
 
+/* 
+In order to reset the server if something is wrong:
+create a PUT request to https://imdb-express-backend.vercel.app/movies/reset in postman
+*/
+
 export async function getMovies() {
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "GET",
