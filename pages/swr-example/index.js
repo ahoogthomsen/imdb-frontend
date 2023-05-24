@@ -36,6 +36,14 @@ export default function Characters() {
     }
   );
   const { trigger: editTrigger } = useSWRMutation(cacheKey, editCharacter);
+  const { trigger: deleteTrigger } = useSWRMutation(cacheKey, deleteCharacter, {
+    onError: () => {
+      setToaster({
+        message: "Datan kunde inte tas bort",
+        type: "error",
+      });
+    },
+  });
 
   // const [data, setData] = useState([]);
   const [toaster, setToaster] = useState(null);
@@ -46,40 +54,37 @@ export default function Characters() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await deleteCharacter(id);
-      if (response.status !== 200) {
-        setToaster({
-          message: response.data.message,
-          type: "error",
-        });
-        return;
-      }
-      mutate();
-      // setData((prevState) => prevState.filter((char) => char.id !== id));
-    } catch (e) {
+    const { data, status } = await deleteTrigger(id);
+
+    if (status !== 200) {
       setToaster({
-        message: "Datan kunde inte deletas",
+        message: data.message,
         type: "error",
       });
+      return;
     }
+
+    // try {
+    //   const response = await deleteCharacter(id);
+    //   if (response.status !== 200) {
+    //     setToaster({
+    //       message: response.data.message,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
+    //   //mutate();
+    //   // setData((prevState) => prevState.filter((char) => char.id !== id));
+    // } catch (e) {
+    //   setToaster({
+    //     message: "Datan kunde inte deletas",
+    //     type: "error",
+    //   });
+    // }
   };
 
   const handleAddCharacter = async (name) => {
-    const { status, data } = await addTrigger(name, {
-      // optimisticData: (currentData) => {
-      //   console.log({ currentData });
-      //   return {
-      //     ...currentData,
-      //     data: [...currentData.data, { name, id: 1235 }],
-      //   };
-      // },
-    });
-
-    if (status !== 200) {
-      setToaster({ message: data.message, type: "error" });
-      return;
-    }
+    await addTrigger({ name, id: 1 });
   };
 
   const handleToggleModal = () => {
@@ -87,26 +92,27 @@ export default function Characters() {
   };
 
   const handleEditCharacter = async ({ id, name }) => {
-    try {
-      const { data, status } = await editCharacter({ id, name });
+    await editTrigger({ id, name });
+    // try {
+    //   const { data, status } = await editCharacter({ id, name });
 
-      if (status !== 200) {
-        setToaster({
-          message: data.message,
-          type: "error",
-        });
-        return;
-      }
+    //   if (status !== 200) {
+    //     setToaster({
+    //       message: data.message,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
 
-      // setData((prevState) =>
-      //   prevState.map((char) => (char.id === id ? { ...char, ...data } : char))
-      // );
-    } catch (e) {
-      setToaster({
-        message: "An error occured when trying to edit a character",
-        type: "error",
-      });
-    }
+    //   // setData((prevState) =>
+    //   //   prevState.map((char) => (char.id === id ? { ...char, ...data } : char))
+    //   // );
+    // } catch (e) {
+    //   setToaster({
+    //     message: "An error occured when trying to edit a character",
+    //     type: "error",
+    //   });
+    // }
   };
 
   return (

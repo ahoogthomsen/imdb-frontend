@@ -11,7 +11,7 @@ export async function getCharacters() {
   return { data };
 }
 
-export async function deleteCharacter(id) {
+export async function deleteCharacter(_, { arg: id }) {
   const res = await fetch(`${BASE_URL}${id}${API_KEY_QUERY}`, {
     method: "DELETE",
   });
@@ -33,7 +33,9 @@ export async function addCharacter(_, { arg: name }) {
   return { data, status: res.status };
 }
 
-export async function editCharacter({ id, name }) {
+export async function editCharacter(_, { arg }) {
+  const { id, name } = arg;
+
   const res = await fetch(`${BASE_URL}${id}${API_KEY_QUERY}`, {
     method: "PUT",
     headers: {
