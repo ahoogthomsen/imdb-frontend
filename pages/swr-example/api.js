@@ -21,7 +21,6 @@ export async function deleteCharacter(_, { arg: id }) {
 }
 
 export async function addCharacter(_, { arg: name }) {
-  await delay();
   const res = await fetch(`${BASE_URL}${API_KEY_QUERY}`, {
     method: "POST",
     headers: {
