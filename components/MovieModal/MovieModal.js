@@ -13,6 +13,7 @@ const MovieModal = ({ movie = {}, onSubmit, onClose }) => {
   const [title, setTitle] = useState(movie.Title || "");
   const [year, setYear] = useState(movie.Year || "");
   const [genre, setGenre] = useState(movie.Genre || "");
+  const [released, setReleased] = useState(movie.Released || "");
 
   const posterChangeHandler = (event) => {
     setPoster(event.target.value);
@@ -20,6 +21,10 @@ const MovieModal = ({ movie = {}, onSubmit, onClose }) => {
 
   const titleChangeHandler = (event) => {
     setTitle(event.target.value);
+  };
+
+  const releasedChangeHandler = (event) => {
+    setReleased(event.target.value);
   };
 
   const yearChangeHandler = (event) => {
@@ -34,11 +39,12 @@ const MovieModal = ({ movie = {}, onSubmit, onClose }) => {
     event.preventDefault();
 
     const movieData = {
-      id: movie.imdbID,
+      imdbID: movie.imdbID,
       Poster: poster,
       Title: title,
       Year: year,
       Genre: genre,
+      Released: released,
     };
 
     onSubmit(movieData);
@@ -85,6 +91,15 @@ const MovieModal = ({ movie = {}, onSubmit, onClose }) => {
           id="genre"
           value={genre}
           onChange={genreChangeHandler}
+          required
+        />
+
+        <label htmlFor="released">Released:</label>
+        <input
+          type="number"
+          id="released"
+          value={released}
+          onChange={releasedChangeHandler}
           required
         />
 
