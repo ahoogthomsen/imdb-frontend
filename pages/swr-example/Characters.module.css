@@ -1,0 +1,23 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.characterList {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.addNewCharacter {
+  margin-bottom: 50px;
+  padding: 10px;
+  border-radius: 5px;
+}
