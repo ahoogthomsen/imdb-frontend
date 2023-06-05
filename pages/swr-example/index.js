@@ -63,22 +63,22 @@ export default function Characters() {
   };
 
   const handleDelete = async (id) => {
-    const { data, status } = await deleteTrigger(id);
+    const { status, error } = await deleteTrigger(id);
 
-    if (status !== 200) {
+    if (status !== 204) {
       setToaster({
-        message: data.message,
+        message: error.message,
         type: "error",
       });
     }
   };
 
   const handleAddCharacter = async (name) => {
-    const { data, status } = await addTrigger(name);
+    const { error, status } = await addTrigger(name);
 
-    if (status !== 200) {
+    if (status !== 201) {
       setToaster({
-        message: data.message,
+        message: error.message,
         type: "error",
       });
     }
@@ -89,11 +89,11 @@ export default function Characters() {
   };
 
   const handleEditCharacter = async ({ id, name }) => {
-    const { data, status } = await editTrigger({ id, name });
+    const { error, status } = await editTrigger({ id, name });
 
-    if (status !== 200) {
+    if (status !== 204) {
       setToaster({
-        message: data.message,
+        message: error.message,
         type: "error",
       });
     }
